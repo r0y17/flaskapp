@@ -1,0 +1,38 @@
+{% extends 'base.html'%} <!--this extends everything that was included in the base.html like the css and other elements-->
+{%block head%} <!--this is where the header starts but it is short-->
+<title>Task Master</title>
+{%endblock%}<!--this will end the header -->
+
+{%block body%}<!--this is where the body-->
+<div class="content">
+    <h1 style="text-align: center;">Task Master</h1>
+    {%if tasks|length < 1 %} <!--This is a counter to see of the length of the tasks is lower than 1 using the database-->
+    <h4>There are no tasks. Create one below!</h4><!--this is the message that will be displayed if the counter is less than 1-->
+    {%else%}<!--this else will run all the tasks that are in the database if the counter is higher than 0-->
+    <table><!--this is a table to make it look better, more organized-->
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+        {%for task in tasks%}<!--this is a for loop where we are looping through the database tasks-->
+        <tr>
+            <td>{{ task.content }}</td> <!--this is getting the content that was inputed under task-->
+            <td>{{ task.date_created.date() }}</td> <!--this is the date that it was created-->
+            <td>
+                <a href="/delete/{{task.id}}">Delete</a> <!--this is a delete link where it deletes the task accorinding to the id that was chosen-->
+                <br>
+                <a href="/update/{{task.id}}">Update</a> <!--this is an update link where the id chosen could be updated-->
+            </td>
+        </tr>
+        {%endfor%} <!--this is the end of the for loop-->
+    </table>
+    {%endif%} <!--this is the end of the if statement-->
+<div class="form"> <!--this is a form to send information using POST-->
+        <form action="/" method="POST">
+            <input type="text" name="content" id="content"> <!--this is a text box -->
+            <input type="submit" value="Add Task"> <!--submit button-->
+        </form>
+    </div>
+</div>
+{%endblock%}<!--the end of body block-->
